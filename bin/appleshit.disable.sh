@@ -1,14 +1,30 @@
 #!/bin/bash
 OSX=$(sw_vers -productVersion | cut -f 1-2 -d .)
+OSM=$(sw_vers -productVersion | cut -f 2-2 -d .)
 
-[ -f /etc/appleshit.daemons.${OSX}.cfg ] || {
-echo "Please create /etc/appleshit.daemons.${OSX}.cfg with all daemons to disable, one per line."
+if [[ $OSM -lt "15"]]; then
+	RLIB="/System/Library"
+	RETC="/etc"
+else
+	RLIB="./System/Library"
+	RETC="./etc"
+fi
+
+# Check system/library exists
+
+[ -d ${RLIB} ] || {
+	echo "Please change to the OS Volume (cd /Volumes/...) and run this script again."
+	exit 1
+}
+
+[ -f ${RETC}/appleshit.daemons.${OSX}.cfg ] || {
+echo "Please create ${RETC}/appleshit.daemons.${OSX}.cfg with all daemons to disable, one per line."
 	exit 1
 }
 
 
-[ -f /etc/appleshit.agents.${OSX}.cfg ] || {
-	echo "Please create /etc/appleshit.agents.${OSX}.cfg with all agents to disable, one per line."
+[ -f ${RETC}/appleshit.agents.${OSX}.cfg ] || {
+	echo "Please create ${RETC}/appleshit.agents.${OSX}.cfg with all agents to disable, one per line."
 	exit 1
 }
 
@@ -17,10 +33,9 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
-
 # Create backup dirs if not already created
-[ -d /System/Library/LaunchDaemons.off ] || mkdir /System/Library/LaunchDaemons.off
-[ -d /System/Library/LaunchAgents.off ] || mkdir /System/Library/LaunchAgents.off
+[[ -d ${RLIB}/LaunchDaemons.off ]] || mkdir ${RLIB}/LaunchDaemons.off
+[[ -d ${RLIB}/LaunchAgents.off ]] || mkdir ${RLIB}/LaunchAgents.off
 
 # Disable AGENTS
 
@@ -29,17 +44,19 @@ input="/etc/appleshit.agents.${OSX}.cfg"
 
 while IFS= read -r agent
 do
-  var=${agent}
-  [[ $var =~ ^#.* ]] && continue
-  [ -f /System/Library/LaunchAgents/${agent}.plist ] && {
- 	echo "- A ${agent} exists, disabling" 
-        launchctl unload -w /System/Library/LaunchAgents/${agent}.plist > /dev/null
-	mv /System/Library/LaunchAgents/${agent}.plist /System/Library/LaunchAgents.off/${agent}.plist
-  } || {
-	[ -f /System/Library/LaunchAgents.off/${agent}.plist ] && {
- 		echo "! A ${agent} ALREADY DISABLED" 
-	} || echo "! A ${agent} DOES NOT EXIST" 
-  }
+	var=${agent}
+	[[ $var =~ ^#.* ]] && continue
+	if [[ -f ${RLIB}/LaunchAgents/${agent}.plist ]]; then
+		echo "- A ${agent} exists, disabling" 
+		launchctl unload -w ${RLIB}/LaunchAgents/${agent}.plist &> /dev/null
+		mv ${RLIB}/LaunchAgents/${agent}.plist ${RLIB}/LaunchAgents.off/${agent}.plist &> /dev/null
+	else 
+		if [[ -f ${RLIB}/LaunchAgents.off/${agent}.plist ]]; then 
+			echo "! A ${agent} ALREADY DISABLED" 
+		else 
+			echo "! A ${agent} DOES NOT EXIST" 
+		fi
+	fi
 
 done < "$input"
 
@@ -49,18 +66,17 @@ input="/etc/appleshit.daemons.${OSX}.cfg"
 echo "----- APPLE DAEMONS"
 while IFS= read -r daemon
 do
-  var=${daemon}
-  [[ $var =~ ^#.* ]] && continue
-  [ -f /System/Library/LaunchDaemons/${daemon}.plist ] && {
- 	echo "- D ${daemon} exists, disabling" 
-        launchctl unload -w /System/Library/LaunchDaemons/${daemon}.plist > /dev/null
-	mv /System/Library/LaunchDaemons/${daemon}.plist /System/Library/LaunchDaemons.off/${daemon}.plist
-  } || {
-	[ -f /System/Library/LaunchDaemons.off/${daemon}.plist ] && {
- 		echo "! D ${daemon} ALREADY DISABLED" 
-	} || echo "! D ${daemon} DOES NOT EXIST" 
-  }
-
+	var=${daemon}
+	[[ $var =~ ^#.* ]] && continue
+	if [[ -f ${RLIB}/LaunchDaemons/${daemon}.plist ]]; then
+		echo "- D ${daemon} exists, disabling" 
+		[[ $OSM -lt 15 ]] && launchctl unload -w ${RLIB}/LaunchDaemons/${daemon}.plist &> /dev/null
+		mv ${RLIB}/LaunchDaemons/${daemon}.plist ${RLIB}/LaunchDaemons.off/${daemon}.plist &> /dev/null
+	else 
+		if [[ -f ${RLIB}/LaunchDaemons.off/${daemon}.plist ]]; then
+			echo "! D ${daemon} ALREADY DISABLED" 
+		else
+			echo "! D ${daemon} DOES NOT EXIST" 
+		fi
+  	fi
 done < "$input"
-
-
