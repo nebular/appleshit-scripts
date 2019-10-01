@@ -4,17 +4,19 @@ These scripts disable (And enable again) most background services in your OSX co
 
 Latest versions of OSX (Mojave) have an insane amount of services that are constantly contacting their systems to register metrics, synchronizations, updates, ....
 
-### When do may need this?
+### When you may need this?
 
-- If you are a professional user that don't use the Apple Fancies, but only your programs.
+- If you are a professional user that don't use the Apple Fancies, but only your programs. 
 
-- If you are using your computer for live performances
+- If you are using your computer for demanding tasks like live performances and you need all horsepower for yourself
 
 ### When you should NOT use this
 
 - If you mosty use your Mac to enjoy Apple services and synchronize devices like your iPhone or Apple Watch, iCloud, etc.
 
-- If you are an apple boy or girl and use iCloud, iMessage, iCloud, iPhone sync, iWatch ... whatever thing starting with i that has an apple logo 
+- If you don't understand anything we're talking about here
+
+PLEASE MIND THAT A LOT OF APPLE FANCIES WILL NOT WORK ANYMORE WHEN YOU DISABLE THE SERVICES UNTIL YOU ENABLE THEM AGAIN. YOUR IPHONE WILL PROBABLY DON'T SYNC WITH THE COMPUTER. YOUR KITTEN PHOTOS WILL NOT BE UPLOADED TO ICLOUD. SIRI WILL NOT LOVE YOU ANYMORE.
 
 ### installing
 
