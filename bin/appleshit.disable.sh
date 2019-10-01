@@ -3,9 +3,11 @@ OSX=$(sw_vers -productVersion | cut -f 1-2 -d .)
 OSM=$(sw_vers -productVersion | cut -f 2-2 -d .)
 
 if [[ $OSM -lt "15"]]; then
+	# Before Catalina, stuff at root level
 	RLIB="/System/Library"
 	RETC="/etc"
 else
+	# Catalina onwards, stuff relative to the system volume
 	RLIB="./System/Library"
 	RETC="./etc"
 fi
@@ -13,7 +15,7 @@ fi
 # Check system/library exists
 
 [ -d ${RLIB} ] || {
-	echo "Please change to the OS Volume (cd /Volumes/...) and run this script again."
+	echo "Please change to the OS System Volume (cd /Volumes/...) and run this script again."
 	exit 1
 }
 

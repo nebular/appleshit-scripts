@@ -19,7 +19,7 @@ fi
 # Check system/library exists
 
 [ -d ${RLIB} ] || {
-	echo "Please change to the OS Volume (cd /Volumes/...) and run this script again."
+	echo "Please change to the OS System Volume (cd /Volumes/...) and run this script again."
 	exit 1
 }
 
