@@ -18,7 +18,6 @@ echo "Please create /etc/appleshit.daemons.${OSX}.cfg with all daemons to disabl
 	exit 1
 }
 
-
 # AGENTS
 
 echo "----- APPLE AGENTS"
@@ -29,12 +28,10 @@ do
   var=${agent}
   [[ $var =~ ^#.* ]] && continue
   [ -f /System/Library/LaunchAgents.off/${agent}.plist ] && {
- 	echo "- A ${agent} was disabled, enabling" 
-	mv /System/Library/LaunchAgents.off/${agent}.plist /System/Library/LaunchAgents/${agent}.plist
-        launchctl load -w /System/Library/LaunchAgents/${agent}.plist
-  } || {
- 	echo "! A ${agent} does not exists, or was not disabled" 
-  }
+	  echo "- A ${agent} was disabled, enabling" 
+	  mv /System/Library/LaunchAgents.off/${agent}.plist /System/Library/LaunchAgents/${agent}.plist
+	  launchctl load -w /System/Library/LaunchAgents/${agent}.plist > /dev/null
+  } || echo "! A ${agent} does not exists, or was not disabled" 
 
 done < "$input"
 
@@ -47,12 +44,10 @@ do
   var=${daemon}
   [[ $var =~ ^#.* ]] && continue
   [ -f /System/Library/LaunchDaemons.off/${daemon}.plist ] && {
- 	echo "- D ${daemon} was disabled, enabling"
-	mv /System/Library/LaunchDaemons.off/${daemon}.plist /System/Library/LaunchDaemons/${daemon}.plist
-        launchctl load -w /System/Library/LaunchDaemons/${daemon}.plist
-  } || {
- 	echo "! D ${daemon} does not exists, or was not disabled" 
-  }
+	  echo "- D ${daemon} was disabled, enabling"
+	  mv /System/Library/LaunchDaemons.off/${daemon}.plist /System/Library/LaunchDaemons/${daemon}.plist
+	  launchctl load -w /System/Library/LaunchDaemons/${daemon}.plist > /dev/null
+  } || echo "! D ${daemon} does not exists, or was not disabled" 
 
 done < "$input"
 

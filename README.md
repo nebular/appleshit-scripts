@@ -4,6 +4,8 @@ These scripts disable (And enable again) most background services in your OSX co
 
 Latest versions of OSX (Mojave) have an insane amount of services that are constantly contacting their systems to register metrics, synchronizations, updates, ....
 
+Catalina users: Either disable SIP or run from the recovery console, as System Files are read only under normal operation.
+
 ### When you may need this?
 
 - If you are a professional user that don't use the Apple Fancies, but only your programs. 
@@ -54,7 +56,7 @@ The **10.14** part of the filename means those files will be used when running o
 - **/etc/appleshit.daemons.10.13.cfg**
 - **/etc/appleshit.agents.10.13.cfg**
 
-Mind that you need to investigate what services and daemons to enable and disable. This version currently contains Mpjave services only.
+Mind that you need to investigate what services and daemons to enable and disable. This version currently contains Mpjave and Catalina services only.
 
 ### technical info
 
