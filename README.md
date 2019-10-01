@@ -40,11 +40,11 @@ PLEASE MIND THAT A LOT OF APPLE FANCIES WILL NOT WORK ANYMORE WHEN YOU DISABLE T
 
 On /etc/ you find the following files
 
-- [[/etc/appleshit.daemons.10.14.cfg]]
+- [/etc/appleshit.daemons.10.14.cfg](etc/appleshit.daemons.10.14.cfg)
 	
 	This file contains all the daemons to disable/enable, one per line. You can use a # as the first character to ignore that service.
 	
-- [[/etc/appleshit.agents.10.14.cfg]]
+- [/etc/appleshit.agents.10.14.cfg](etc/appleshit.agents.10.14.cfg)
 
 	This file contains all the agents to disable/enable, one per line. You can use a # as the first character to ignore that service.
 
