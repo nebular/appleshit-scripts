@@ -40,13 +40,13 @@ PLEASE MIND THAT A LOT OF APPLE FANCIES WILL NOT WORK ANYMORE WHEN YOU DISABLE T
 
 On /etc/ you find the following files
 
-- **/etc/appleshit.daemons.10.14.cfg**
+- [[/etc/appleshit.daemons.10.14.cfg]]
 	
-	This file contains all the daemons to disable/enable, one in each line.
+	This file contains all the daemons to disable/enable, one per line. You can use a # as the first character to ignore that service.
 	
-- **/etc/appleshit.agents.10.14.cfg**
+- [[/etc/appleshit.agents.10.14.cfg]]
 
-	This file contains all the agents to disable/enable, one in each line.
+	This file contains all the agents to disable/enable, one per line. You can use a # as the first character to ignore that service.
 
 You can edit those files and delete or add more services
 The **10.14** part of the filename means those files will be used when running on OSX 10.14 (Mojave). If you are running another version, you must create new files with your version number. This is because some Agents are different across OSX versions. For example, for a system running OSX 10.13 (High Sierra) you will create
@@ -56,3 +56,16 @@ The **10.14** part of the filename means those files will be used when running o
 
 Mind that you need to investigate what services and daemons to enable and disable. This version currently contains Mpjave services only.
 
+### technical info
+
+In OSX, agents and daemons launchers are stored in
+
+- /System/Library/LaunchAgents/
+- /System/Library/LaunchDaemons/
+
+These scripts create two additional folders
+
+- /System/Library/LaunchAgents.off/
+- /System/Library/LaunchDaemons.off/
+
+... and move the disabled services launchers there so they are not started. When you enable the services, the files are moved back to their original location.
