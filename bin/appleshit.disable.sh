@@ -2,7 +2,7 @@
 OSX=$(sw_vers -productVersion | cut -f 1-2 -d .)
 OSM=$(sw_vers -productVersion | cut -f 2-2 -d .)
 
-if [[ $OSM -lt "15"]]; then
+if [[ $OSM -lt "15" ]]; then
 	# Before Catalina, stuff at root level
 	RLIB="/System/Library"
 	RETC="/etc"

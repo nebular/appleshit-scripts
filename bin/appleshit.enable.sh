@@ -8,7 +8,7 @@ fi
 OSX=$(sw_vers -productVersion | cut -f 1-2 -d .)
 OSM=$(sw_vers -productVersion | cut -f 2-2 -d .)
 
-if [[ $OSM -lt "15"]]; then
+if [[ $OSM -lt "15" ]]; then
 	RLIB="/System/Library"
 	RETC="/etc"
 else
