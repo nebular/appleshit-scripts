@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Check superuser
 if [[ $EUID -ne 0 ]]; then
     echo "${0}: This script must be run using sudo or as the root user"
     exit 1
@@ -9,14 +10,16 @@ OSX=$(sw_vers -productVersion | cut -f 1-2 -d .)
 OSM=$(sw_vers -productVersion | cut -f 2-2 -d .)
 
 if [[ $OSM -lt "15" ]]; then
+	# Before Catalina: Mojave, High Sierra ...
 	RLIB="/System/Library"
 	RETC="/etc"
 else
+	# Catalina and after, needs script to be executed from OS Volume Root.
 	RLIB="./System/Library"
 	RETC="./etc"
 fi
 
-# Check system/library exists
+# Check System/Library exists
 
 [ -d ${RLIB} ] || {
 	echo "Please change to the OS System Volume (cd /Volumes/...) and run this script again."
@@ -72,5 +75,3 @@ do
 	  echo "! D ${daemon} does not exists, or was not disabled" 
   fi
 done < "$input"
-
-
