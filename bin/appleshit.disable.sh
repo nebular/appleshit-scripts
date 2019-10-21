@@ -47,7 +47,7 @@ fi
 # Disable AGENTS
 
 echo "----- APPLE AGENTS"
-input="/etc/appleshit.agents.${OSX}.cfg"
+input="${RETC}/appleshit.agents.${OSX}.cfg"
 
 while IFS= read -r agent
 do
@@ -76,7 +76,7 @@ done < "$input"
 
 # Disable DAEMONS
 
-input="/etc/appleshit.daemons.${OSX}.cfg"
+input="${RETC}/appleshit.daemons.${OSX}.cfg"
 echo "----- APPLE DAEMONS"
 while IFS= read -r daemon
 do
